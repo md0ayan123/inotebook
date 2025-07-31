@@ -6,8 +6,7 @@ import NoteContext from "./noteContext";
 
 const NoteState = (props) => {
   const host = "http://localhost:5000"
-  const notesInitial = []
-  const [notes, setNotes] = useState(notesInitial)
+  const [notes, setNotes] = useState([])
 
 
 
@@ -21,15 +20,15 @@ const NoteState = (props) => {
 
       headers: {
         "Content-Type": "application/json",
-        "auth-token": sessionStorage.getItem('token')
+        "auth-token": localStorage.getItem('token')
 
       }
 
     });
 
-    const json = await response.json()
-    // console.log(json);
-    setNotes(json)
+    const result = await response.json()
+ console.log(result);
+    setNotes(result)
 
 
   }
@@ -43,7 +42,7 @@ const NoteState = (props) => {
 
       headers: {
         "Content-Type": "application/json",
-        "auth-token": sessionStorage.getItem('token')
+        "auth-token": localStorage.getItem('token')
 
       },
 
@@ -67,13 +66,14 @@ const NoteState = (props) => {
 
       headers: {
         "Content-Type": "application/json",
-        "auth-token": sessionStorage.getItem('token')
+        "auth-token": localStorage.getItem('token')
 
       },
 
     });
 
-    const json = response.json()
+    const result= response.json()
+     console.log(result);
    
     // console.log("Deleting the note with id" + id);
     const newNotes = notes.filter((note) => { return note._id !== id })
@@ -88,14 +88,16 @@ const NoteState = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": sessionStorage.getItem('token')
+        "auth-token": localStorage.getItem('token')
 
       },
 
       body: JSON.stringify({ title, description, tag }),
     });
 
-    const json = await response.json()
+    const result = await response.json()
+    console.log(result);
+    
 
     let newNotes = await JSON.parse(JSON.stringify(notes))
     // Logic to edit in client side

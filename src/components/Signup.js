@@ -4,32 +4,35 @@ import { useNavigate } from "react-router-dom"
 const Signup = (props) => {
   const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cpassword: "" })
   let navigate = useNavigate();
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const { name, email, password } = credentials
-    const response = await fetch("http://localhost:5000/api/auth/createuser", {
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  const { name, email, password } = credentials;
+
+  try {
+    const response = await fetch("http://localhost:5000/api/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-
       },
       body: JSON.stringify({ name, email, password }),
-    })
-    const json = await response.json()
+    });
+
+    const json = await response.json();
     console.log(json);
 
     if (json.success) {
-
-      //  Save the auth token and redirect
-      localStorage.setItem('token', json.authtoken);
-      props.showAlert("Account created successfully", "success")
-      navigate('/', { success: true })
-
+      localStorage.setItem('token', json.authtoken); // or json.token if that's what backend sends
+      props.showAlert("Account created successfully", "success");
+      navigate('/');
+    } else {
+      props.showAlert("Invalid credentials", "danger");
     }
-    else {
-      props.showAlert("Invalid credentials", "danger")
-    }
+  } catch (error) {
+    console.error("Signup error:", error.message);
+    props.showAlert("Something went wrong. Try again later.", "danger");
   }
+};
+
 
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -37,7 +40,7 @@ const Signup = (props) => {
 
   return (
     <div>
-      <div className='container my-3 mx-3'>
+      <div className='container my-3 mx-5'>
         <h3 className='my-4'>Signup</h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -56,7 +59,7 @@ const Signup = (props) => {
           <div className="mb-3">
             <label htmlFor="cPassword1" className="form-label">Confirm Password</label>
             <input type="password" className="form-control" onChange={onChange} id="cpassword" name="cpassword" minLength={5} required />
-          </div>
+          </div>  
           <button type="submit" className="btn btn-primary" >Submit</button>
         </form>
       </div>

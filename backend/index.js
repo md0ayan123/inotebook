@@ -1,4 +1,4 @@
-const mongoose=require("./db")
+const db=require("./db")
 const express = require('express')
 const cors = require('cors')
 
@@ -18,6 +18,4 @@ app.use('/api/notes',require('./routes/notes.js'))
 
 
 
-app.listen(port, () => {
-  console.log(`iNotebook backend listening at http://localhost:${port}`)
-})
+app.listen(`${port}`)

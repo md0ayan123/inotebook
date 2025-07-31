@@ -26,7 +26,10 @@ const Navbar = () => {
               </li>
             </ul>
             <form className="d-flex" role="search">
-              {!sessionStorage.getItem('token') ? <><Link className="btn btn-primary mx-2" to="/login " role="button">Login</Link><Link className="btn btn-primary mx-2" to="/signup" role="button">Signup</Link></> : <Link className="btn btn-primary mx-2" to="/login" role="button" onClick={handClick}>Logout</Link>}
+              {!sessionStorage.getItem('token') ? <>
+              <Link className="btn btn-primary mx-2" to="/login " role="button">Login</Link>
+              <Link className="btn btn-primary mx-2" to="/signup" role="button">Signup</Link></> :
+               <Link className="btn btn-primary mx-2" to="/login" role="button" onClick={handClick}>Logout</Link>}
             </form>
           </div>
         </div>

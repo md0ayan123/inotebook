@@ -1,9 +1,16 @@
 const mongoose = require('mongoose');
 
-const url = "mongodb://127.0.0.1/inotebook";
+async function connectToMongo() {
+  try {
+    await mongoose.connect("mongodb+srv://mdayan835:eQGYJ0f6NjKXvvzz@inotebook-db.6fbtczs.mongodb.net/inotebook");
+    console.log('Mongodb connection successfully');
+    
+  } catch (error) {
+    console.error("Something went wrong:", error.message);
+  }
+}
 
-mongoose.connect(url).then((res)=>{
-    console.log("connected to mongodb successfully")
-}).catch((err)=> console.log("err in db ",err))
+connectToMongo();
 
-module.exports=mongoose
+module.exports = mongoose;
+
